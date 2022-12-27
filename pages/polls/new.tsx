@@ -2,14 +2,14 @@ import { useState } from 'react'
 import styles from '../../styles/Poll.New.module.css'
 
 export default function NewPolls () {
-    const AnswerBlock = <input type="text" className={styles.formRow} name="answers[]"></input>
+    const AnswerBlock = <input type="text" className={styles.formRow} name="answers"></input>
     const [answerInputs, setAnswerInputs] = useState([AnswerBlock])
 
     return (
         <>
             <main className={styles.main}>
                 <h1>New Poll</h1>
-                <form className={styles.formContainer} action='/api/form'>
+                <form className={styles.formContainer} action="/api/poll" method="post">
                     <label className={styles.formRow} htmlFor="question">Question</label>
                     <input className={styles.formRow} type="text" name="question"></input>
 
