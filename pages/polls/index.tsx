@@ -1,5 +1,6 @@
 import { Poll } from '../../lib/poll'
 import { getMongoClient } from '../../lib/mongodb'
+import styles from '../../styles/Poll.List.module.css'
 
 interface PollProps {
     polls: Array<Poll>
@@ -8,15 +9,17 @@ interface PollProps {
 export default function Polls({ polls }: PollProps) {
     return (
         <>
-            <main>
+            <main className={styles.main}>
                 <h1>Polls</h1>
-                {polls.map((p) => {
-                    return (
-                        <div>
-                            {p.question}
-                        </div>
-                    )
-                })}
+                <div className={styles.questionBlockContainer}>
+                    {polls.map((p) => {
+                        return (
+                            <a className={styles.questionBlock} href={`/polls/${p._id}`}>
+                                {p.question}
+                            </a>
+                        )
+                    })}
+                </div>
             </main>
         </>
     )
@@ -32,7 +35,7 @@ export async function getServerSideProps() {
     const polls = await pollsQuery.toArray()
     for (const p of polls) {
         // not JSON serializable:
-        delete p._id
+        p._id = p._id.toString()
     }
     client.close()
     // Pass data to the page via props

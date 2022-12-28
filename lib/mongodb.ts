@@ -1,11 +1,11 @@
-import * as dotenv from 'dotenv'
-dotenv.config()
 import { MongoClient, ServerApiVersion } from 'mongodb'
 
 const user = process.env.MONGODB_USERNAME as string
 const pwd = process.env.MONGODB_PASSWORD as string
 const uri = process.env.MONGODB_URI as string
-const connString = `mongodb+srv://${user}:${pwd}@${uri}`
+const protocol = uri.includes(':') ? 'mongodb' : 'mongodb+srv' // support localhost and non-
+const connString = `${protocol}://${user}:${pwd}@${uri}`
+console.log(connString)
 const options = { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 }
 
 export const getMongoClient = (): MongoClient => {
